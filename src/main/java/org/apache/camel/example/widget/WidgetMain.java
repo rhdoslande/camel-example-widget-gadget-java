@@ -20,7 +20,8 @@ import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.camel.main.Main;
 import org.doslande.CsvRoute;
 import org.doslande.FtpCsvRoute;
-import org.doslande.MyJaxbRoute;
+import org.doslande.FtpToDivisionRoute;
+import org.doslande.RestToDivisionRoute;
 
 /**
  * A plain Java Main to start the widget and gadget example.
@@ -47,8 +48,11 @@ public final class WidgetMain {
         main.addRouteBuilder(new FtpCsvRoute());
 //        main.addRouteBuilder(new CsvRoute());
         
-        // JAXB
-        main.addRouteBuilder(new MyJaxbRoute());        
+        // from FTP to Dvisions
+        main.addRouteBuilder(new FtpToDivisionRoute());
+        
+        // from REST to Divisions
+        main.addRouteBuilder(new RestToDivisionRoute());
         
 
         // start and run Camel (block)

@@ -8,7 +8,7 @@ import org.apache.camel.dataformat.bindy.csv.BindyCsvDataFormat;
 import org.apache.camel.spi.DataFormat;
 import org.doslande.model.Order;
 
-public class MyJaxbRoute extends RouteBuilder {
+public class FtpToDivisionRoute extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
@@ -22,9 +22,9 @@ public class MyJaxbRoute extends RouteBuilder {
 		
 		Predicate isWidget = xpath("/order/product = 'widget'");
 		Predicate isGadget = xpath("/order/product = 'gadget'");
-        Endpoint widget = endpoint("file:src/data/TESTOUT?fileName=widget_out.xml&fileExist=Append");
-        Endpoint gadget = endpoint("file:src/data/TESTOUT?fileName=gadget_out.xml&fileExist=Append");
-        Endpoint other = endpoint("file:src/data/TESTOUT?fileName=other_out.xml&fileExist=Append");
+        Endpoint widget = endpoint("file:src/data/divisions?fileName=ftp_widget_out.xml&fileExist=Append");
+        Endpoint gadget = endpoint("file:src/data/divisions?fileName=ftp_gadget_out.xml&fileExist=Append");
+        Endpoint other = endpoint("file:src/data/divisions?fileName=ftp_other_out.xml&fileExist=Append");
 		
 		from("file:src/data/ftp-inbox?noop=true&fileName=jaxb_orders.csv")
 		
@@ -35,10 +35,10 @@ public class MyJaxbRoute extends RouteBuilder {
 		  
           .choice()
 	          .when(isWidget)
-	              .to("log:widget") // add a log so we can see this happening in the shell
+	              .to("mock:widget") // add a log so we can see this happening in the shell
 	              .to(widget)
 		      .when(isGadget)
-	              .to("log:gadget") // add a log so we can see this happening in the shell
+	              .to("mock:gadget") // add a log so we can see this happening in the shell
 	              .to(gadget)
 	          .otherwise()
 	              .to("log:other") // add a log so we can see this happening in the shell

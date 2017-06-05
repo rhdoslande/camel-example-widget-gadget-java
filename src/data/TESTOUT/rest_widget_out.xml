@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<orders>
+    <order>
+        <customerId>678</customerId>
+        <product>widget</product>
+        <amount>6</amount>
+    </order>
+    <order>
+        <customerId>789</customerId>
+        <product>widget</product>
+        <amount>78</amount>
+    </order>
+</orders>

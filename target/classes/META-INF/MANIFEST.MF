@@ -5,10 +5,11 @@ Built-By: doslande
 Specification-Vendor: The Apache Software Foundation
 Specification-Title: Camel :: Example :: Widget and Gadget :: Java
 Implementation-Vendor-Id: org.apache.camel
+Class-Path: 
+Implementation-Vendor: The Apache Software Foundation
 Build-Jdk: 1.8.0_131
 Specification-Version: 2.20
 Implementation-URL: http://camel.apache.org/camel-parent/examples/came
  l-example-widget-gadget-java
 Created-By: Maven Integration for Eclipse
-Implementation-Vendor: The Apache Software Foundation
 
