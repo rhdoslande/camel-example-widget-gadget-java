@@ -1,0 +1,5 @@
+org\apache\camel\example\widget\CreateOrderRoute.class
+org\doslande\bindy\Order.class
+org\doslande\FtpCsvRoute.class
+org\apache\camel\example\widget\WidgetGadgetRoute.class
+org\apache\camel\example\widget\WidgetMain.class
