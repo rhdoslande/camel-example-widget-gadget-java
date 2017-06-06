@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<order xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="schema/order.xsd">
+    <customerId>123</customerId>
+    <product>widget</product>
+    <amount>2</amount>
+</order>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<order xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="schema/order.xsd">
+    <customerId>123</customerId>
+    <product>gadget</product>
+    <amount>7</amount>
+</order>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<order xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="schema/order.xsd">
+    <customerId>234</customerId>
+    <product>widget</product>
+    <amount>20</amount>
+</order>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<order xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="schema/order.xsd">
+    <customerId>123</customerId>
+    <product>widget</product>
+    <amount>2</amount>
+</order>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<order xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="schema/order.xsd">
+    <customerId>123</customerId>
+    <product>gadget</product>
+    <amount>7</amount>
+</order>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<order xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="schema/order.xsd">
+    <customerId>234</customerId>
+    <product>widget</product>
+    <amount>20</amount>
+</order>

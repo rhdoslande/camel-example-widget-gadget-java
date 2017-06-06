@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><orders>
+<order>
+    <customerId>123</customerId>
+    <product>gadget</product>
+    <amount>7</amount>
+</order>
+</orders>
+<?xml version="1.0" encoding="UTF-8"?><orders>
+<order>
+    <customerId>123</customerId>
+    <product>gadget</product>
+    <amount>7</amount>
+</order>
+</orders>
+<?xml version="1.0" encoding="UTF-8"?><orders>
+<order>
+    <customerId>123</customerId>
+    <product>gadget</product>
+    <amount>7</amount>
+</order>
+</orders>
+<?xml version="1.0" encoding="UTF-8"?><orders>
+<order>
+    <customerId>123</customerId>
+    <product>gadget</product>
+    <amount>7</amount>
+</order>
+</orders>
+<?xml version="1.0" encoding="UTF-8"?><orders>
+<order>
+    <customerId>123</customerId>
+    <product>gadget</product>
+    <amount>7</amount>
+</order>
+</orders>
