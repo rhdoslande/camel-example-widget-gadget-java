@@ -1,1 +1,8 @@
 /target
+/src/test/resources/generated
+/src/test/resources/TESTOUT/gadget_out.xml
+/src/test/resources/TESTOUT/orders_generated.xml
+/src/test/resources/TESTOUT/orders_jaxb.xml
+/src/test/resources/TESTOUT/rest_other_out.xml
+/src/test/resources/TESTOUT/rest_widget_out.xml
+/src/test/resources/TESTOUT/widget_out.xml

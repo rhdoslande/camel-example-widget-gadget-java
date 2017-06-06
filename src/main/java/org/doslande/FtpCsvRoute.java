@@ -31,7 +31,7 @@ public class FtpCsvRoute extends RouteBuilder {
 //		XStream xStream = new XStream();
 //		xStream.aliasField("money", Order.class, "org.doslande.bindy.Order");
 		
-		from("file:src/data/ftp-inbox?noop=true&fileName=orders.csv")
+		from("file:src/test/resources/from-ftp?noop=true&fileName=orders.csv")
 		
 /*		  .unmarshal().csv()
 		  .convertBodyTo(String.class) // see [1]
@@ -41,7 +41,7 @@ public class FtpCsvRoute extends RouteBuilder {
 		.unmarshal(bindy)  // unmarshals csv records into an arraylist
 		.marshal()
         .xstream()
-        .to("file:src/data/TESTOUT?fileName=orders_generated.xml"); 
+        .to("file:src/test/resources/generated?fileName=orders_generated.xml"); 
 //		.to("file:src/data/widget-outbox");
 		
 	}

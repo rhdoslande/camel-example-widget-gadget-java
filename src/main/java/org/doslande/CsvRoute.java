@@ -12,7 +12,7 @@ public class CsvRoute extends RouteBuilder {
 		
 		// Unmarshalling a CSV message into a Java List
 		
-		from("file:src/data/ftp-inbox?noop=true&fileName=csv_orders.csv")
+		from("file:src/test/resources/from-ftp?noop=true&fileName=csv_orders.csv")
 		
 		// CSV to ArrayList
 		.unmarshal().csv()
