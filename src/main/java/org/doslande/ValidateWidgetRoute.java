@@ -21,6 +21,7 @@ public class ValidateWidgetRoute extends RouteBuilder {
 		XPathBuilder xPathBuilder = new XPathBuilder("//orders/order");
 		
 		Endpoint fulfillment = endpoint("file:src/test/resources/fulfillment?fileName=fulfillment_widget_out.xml&fileExist=Append");
+		Endpoint accounting = endpoint("file:src/test/resources/accounting?fileName=accounting_widget_out.xml&fileExist=Append");
 		
 		
 //		from("mock:widget-queue")
@@ -36,7 +37,7 @@ public class ValidateWidgetRoute extends RouteBuilder {
 					.to(fulfillment)
 					.to("log:fulfillment")
 				.otherwise()
-		            .to("mock:accounting")
+		            .to(accounting)
 					.to("log:accounting");
 
 	}

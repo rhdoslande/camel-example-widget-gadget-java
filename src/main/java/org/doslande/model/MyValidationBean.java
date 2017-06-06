@@ -19,14 +19,12 @@ public class MyValidationBean {
 //		knownCustomers.add("111");
 	}
 	
-	// maybe use xpath to bind customer ID to a method parameter
+	// use xpath to bind customer ID to a method parameter
 	public boolean isGoldCustomer(
 			String body, 
 			Exchange exchange, 
 			@XPath("/order/customerId") String customerId) {
 		System.out.println("customerId is:" + customerId + ", known=" + knownCustomers.contains(customerId));
-//		System.out.println("body is:" + body);
-//		exchange.getIn().getBody();
 		
 		return MyValidationBean.knownCustomers.contains(customerId);
 	  }
