@@ -12,17 +12,17 @@ public class RestToDivisionRoute extends RouteBuilder {
 		
 		Predicate isWidget = xpath("/order/product = 'widget'");
 		Predicate isGadget = xpath("/order/product = 'gadget'");
-        Endpoint widget = endpoint("file:src/data/divisions?fileName=rest_widget_out.xml&fileExist=Append");
-        Endpoint gadget = endpoint("file:src/data/divisions?fileName=rest_gadget_out.xml&fileExist=Append");
-        Endpoint other = endpoint("file:src/data/divisions?fileName=rest_other_out.xml&fileExist=Append");
+        Endpoint widget = endpoint("file:src/test/resources/divisions?fileName=rest_widget_out.xml&fileExist=Append");
+        Endpoint gadget = endpoint("file:src/test/resources/divisions?fileName=rest_gadget_out.xml&fileExist=Append");
+        Endpoint other = endpoint("file:src/test/resources/divisions?fileName=rest_other_out.xml&fileExist=Append");
         XPathBuilder xPathBuilder = new XPathBuilder("//orders/order"); 
         
-		from("file:src/data/from-rest?noop=true&fileName=rest_orders.xml")
+		from("file:src/test/resources/from-rest?noop=true&fileName=rest_orders.xml")
 		.split(xPathBuilder)
           .choice()
 	          .when(isWidget)
 	              .to("mock:widget")
-	              .to(widget)
+	              .to(widget)  // sends the "order" node, not a full xml document
 		      .when(isGadget)
 	              .to("mock:gadget")
 	              .to(gadget)
