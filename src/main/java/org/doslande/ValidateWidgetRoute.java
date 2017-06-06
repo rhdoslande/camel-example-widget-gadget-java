@@ -1,5 +1,6 @@
 package org.doslande;
 
+import org.apache.camel.Endpoint;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.xml.XPathBuilder;
 import org.doslande.model.MyValidationBean;
@@ -19,6 +20,7 @@ public class ValidateWidgetRoute extends RouteBuilder {
 		
 		XPathBuilder xPathBuilder = new XPathBuilder("//orders/order");
 		
+		Endpoint fulfillment = endpoint("file:src/test/resources/fulfillment?fileName=fulfillment_widget_out.xml&fileExist=Append");
 		
 		
 //		from("mock:widget-queue")
@@ -31,9 +33,11 @@ public class ValidateWidgetRoute extends RouteBuilder {
 		.split(xPathBuilder)
 			.choice()
 				.when(method(MyValidationBean.class, "isGoldCustomer"))
-					.to("mock:fulfillment")
+					.to(fulfillment)
+					.to("log:fulfillment")
 				.otherwise()
-		            .to("mock:accouting");
+		            .to("mock:accounting")
+					.to("log:accounting");
 
 	}
 
