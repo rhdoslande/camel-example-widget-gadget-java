@@ -1,6 +1,35 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<order xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="schema/order.xsd">
+<?xml version="1.0" encoding="UTF-8"?><orders>
+<order>
     <customerId>123</customerId>
     <product>gadget</product>
     <amount>7</amount>
 </order>
+</orders>
+<?xml version="1.0" encoding="UTF-8"?><orders>
+<order>
+    <customerId>123</customerId>
+    <product>gadget</product>
+    <amount>7</amount>
+</order>
+</orders>
+<?xml version="1.0" encoding="UTF-8"?><orders>
+<order>
+    <customerId>123</customerId>
+    <product>gadget</product>
+    <amount>7</amount>
+</order>
+</orders>
+<?xml version="1.0" encoding="UTF-8"?><orders>
+<order>
+    <customerId>123</customerId>
+    <product>gadget</product>
+    <amount>7</amount>
+</order>
+</orders>
+<?xml version="1.0" encoding="UTF-8"?><orders>
+<order>
+    <customerId>123</customerId>
+    <product>gadget</product>
+    <amount>7</amount>
+</order>
+</orders>

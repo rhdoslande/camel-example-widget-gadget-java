@@ -15,9 +15,10 @@ public class FtpToDivisionRoute extends RouteBuilder {
 		
 		JaxbDataFormat jaxbDataFormat = new JaxbDataFormat();
 		jaxbDataFormat.setContextPath(Order.class.getPackage().getName());
-		jaxbDataFormat.setSchemaLocation("schema/order.xsd");
 		
-		//TODO try the plural Orders format - won't work bc each line in csv is one Object
+		// adds namespace to the ouputted xml
+//		jaxbDataFormat.setSchemaLocation("schema/order.xsd");
+		
 		DataFormat bindy = new BindyCsvDataFormat(org.doslande.model.Order.class);
 		
 		Predicate isWidget = xpath("/order/product = 'widget'");
@@ -30,15 +31,17 @@ public class FtpToDivisionRoute extends RouteBuilder {
 		
 		  .unmarshal(bindy)
 		  .split(body())
-//		  .convertBodyTo(Order.class) // see [1]
-		  .marshal(jaxbDataFormat) 
-		  
+		  .marshal(jaxbDataFormat)		  
           .choice()
 	          .when(isWidget)
 	              .to("mock:widget") // add a log so we can see this happening in the shell
+//	              .to("log:before_xslt")
+	              .to("xslt:orders.xsl")
 	              .to(widget)
+//	              .to("log:xsl_temp")
 		      .when(isGadget)
 	              .to("mock:gadget") // add a log so we can see this happening in the shell
+	              .to("xslt:orders.xsl")
 	              .to(gadget)
 	          .otherwise()
 	              .to("log:other") // add a log so we can see this happening in the shell
