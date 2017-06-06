@@ -6,6 +6,7 @@ public class ValidateGadgetRoute extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
+		// start from "gadget" REST endpoint
 		// get the customer, if not known in the system, send to accounting queue
 		// get order "amount" from xml input
 		// compare versus "inventory amount"

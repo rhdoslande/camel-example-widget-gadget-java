@@ -21,6 +21,7 @@ import org.apache.camel.main.Main;
 import org.doslande.FtpCsvRoute;
 import org.doslande.FtpToDivisionRoute;
 import org.doslande.RestToDivisionRoute;
+import org.doslande.ValidateWidgetRoute;
 
 /**
  * A plain Java Main to start the widget and gadget example.
@@ -44,15 +45,16 @@ public final class WidgetMain {
         // add a 2nd route that routes files from src/main/data to the order queue
         main.addRouteBuilder(new CreateOrderRoute());
         
-        main.addRouteBuilder(new FtpCsvRoute());
+//        main.addRouteBuilder(new FtpCsvRoute());
 //        main.addRouteBuilder(new CsvRoute());
         
         // from FTP to Dvisions
-        main.addRouteBuilder(new FtpToDivisionRoute());
+//        main.addRouteBuilder(new FtpToDivisionRoute());
         
         // from REST to Divisions
-        main.addRouteBuilder(new RestToDivisionRoute());
+//        main.addRouteBuilder(new RestToDivisionRoute());
         
+        main.addRouteBuilder(new ValidateWidgetRoute());
 
         // start and run Camel (block)
         main.run();
