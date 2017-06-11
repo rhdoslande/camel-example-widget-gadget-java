@@ -26,6 +26,8 @@ public class FtpToDivisionRoute extends RouteBuilder {
         Endpoint widget = endpoint("file:src/test/resources/divisions?fileName=ftp_widget_out.xml&fileExist=Append");
         Endpoint gadget = endpoint("file:src/test/resources/divisions?fileName=ftp_gadget_out.xml&fileExist=Append");
         Endpoint other = endpoint("file:src/test/resources/divisions?fileName=ftp_other_out.xml&fileExist=Append");
+        
+        Endpoint widgetDivisionQueue = endpoint("activemq:queue:widgetDivision");
 		
 		from("file:src/test/resources/from-ftp?noop=true&fileName=jaxb_orders.csv")
 		
@@ -38,6 +40,7 @@ public class FtpToDivisionRoute extends RouteBuilder {
 //	              .to("log:before_xslt")
 	              .to("xslt:orders.xsl")
 	              .to(widget)
+	              .to(widgetDivisionQueue)
 //	              .to("log:xsl_temp")
 		      .when(isGadget)
 	              .to("mock:gadget") // add a log so we can see this happening in the shell

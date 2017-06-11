@@ -20,7 +20,7 @@ public class MyValidationBean {
 	}
 	
 	// use xpath to bind customer ID to a method parameter
-	public boolean isGoldCustomer(
+	public boolean isKnownCustomer(
 			String body, 
 			Exchange exchange, 
 			@XPath("/order/customerId") String customerId) {

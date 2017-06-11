@@ -33,7 +33,7 @@ public class ValidateWidgetRoute extends RouteBuilder {
 		from("file:src/test/resources/from-rest?noop=true&fileName=rest_orders.xml")
 		.split(xPathBuilder)
 			.choice()
-				.when(method(MyValidationBean.class, "isGoldCustomer"))
+				.when(method(MyValidationBean.class, "isKnownCustomer"))
 					.to(fulfillment)
 					.to("log:fulfillment")
 				.otherwise()

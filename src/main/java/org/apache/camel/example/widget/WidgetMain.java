@@ -38,18 +38,9 @@ public final class WidgetMain {
     public static void main(String[] args) throws Exception {
         // create the ActiveMQ component
         main.bind("activemq", createActiveMQComponent());
-
-        // add the widget/gadget route
-        main.addRouteBuilder(new WidgetGadgetRoute());
-
-        // add a 2nd route that routes files from src/main/data to the order queue
-        main.addRouteBuilder(new CreateOrderRoute());
-        
-//        main.addRouteBuilder(new FtpCsvRoute());
-//        main.addRouteBuilder(new CsvRoute());
         
         // from FTP to Dvisions
-//        main.addRouteBuilder(new FtpToDivisionRoute());
+        main.addRouteBuilder(new FtpToDivisionRoute());
         
         // from REST to Divisions
 //        main.addRouteBuilder(new RestToDivisionRoute());
