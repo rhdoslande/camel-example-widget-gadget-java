@@ -28,5 +28,25 @@ public class MyValidationBean {
 		
 		return MyValidationBean.knownCustomers.contains(customerId);
 	  }
+	
+	public boolean isOrderUnderLimit(
+			String body, 
+			Exchange exchange, 
+			@XPath("/order/amount") String amount) {
+		System.out.print("amount is:" + amount);
+		
+		int myAmount = 50001;
+		try {
+			myAmount = Integer.parseInt(amount);	
+		} catch (NumberFormatException nfe) {
+			System.out.println("amount is not an int:" + amount);
+		}		
+		
+		boolean result = (myAmount < 50000);
+		System.out.println(" , result is:" + result);
+		return result;
+		
+	}
+	
 
 }

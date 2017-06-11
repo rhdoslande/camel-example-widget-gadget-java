@@ -20,8 +20,8 @@ public class ValidateWidgetRoute extends RouteBuilder {
 		
 		XPathBuilder xPathBuilder = new XPathBuilder("//orders/order");
 		
-		Endpoint fulfillment = endpoint("file:src/test/resources/fulfillment?fileName=fulfillment_widget_out.xml&fileExist=Append");
-		Endpoint accounting = endpoint("file:src/test/resources/accounting?fileName=accounting_widget_out.xml&fileExist=Append");
+		Endpoint widgetFullfillmentFileEndpoint = endpoint("file:src/test/resources/fulfillment?fileName=fulfillment_widget_out.xml&fileExist=Append");
+		Endpoint widgetAccountingFileEndpoint = endpoint("file:src/test/resources/accounting?fileName=accounting_widget_out.xml&fileExist=Append");
 		
 		
 //		from("mock:widget-queue")
@@ -30,15 +30,28 @@ public class ValidateWidgetRoute extends RouteBuilder {
 		// .method("myBean", "isGoldCustomer")
 		// .method(my, "isGoldCustomer")
 		
-		from("file:src/test/resources/from-rest?noop=true&fileName=rest_orders.xml")
+		from("file:src/test/resources/from-rest?noop=true&fileName=rest_widget_orders.xml")
 		.split(xPathBuilder)
 			.choice()
 				.when(method(MyValidationBean.class, "isKnownCustomer"))
-					.to(fulfillment)
-					.to("log:fulfillment")
+					.choice()
+						.when(method(MyValidationBean.class, "isOrderUnderLimit"))
+							// known customer and order is under the limit, send to fulfillment
+							.to("xslt:orders.xsl")
+							.to(widgetFullfillmentFileEndpoint)
+							.to("log:fulfillment")
+						.otherwise()
+							// order is over the limit, send to accounting
+							.to("xslt:orders.xsl")
+							.to(widgetAccountingFileEndpoint)
+							.to("log:accounting-overlimit")
+					.endChoice()
 				.otherwise()
-		            .to(accounting)
-					.to("log:accounting");
+					// not a known customer, send to accounting
+					.to("xslt:orders.xsl")
+		            .to(widgetAccountingFileEndpoint)
+					.to("log:accounting")
+			.endChoice();				;
 
 	}
 

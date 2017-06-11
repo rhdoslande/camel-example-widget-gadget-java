@@ -39,8 +39,8 @@ public final class WidgetMain {
         // create the ActiveMQ component
         main.bind("activemq", createActiveMQComponent());
         
-        // from FTP to Dvisions
-        main.addRouteBuilder(new FtpToDivisionRoute());
+        // from FTP to Widget Queue and Gadget Queue
+//        main.addRouteBuilder(new FtpToDivisionRoute());
         
         // from REST to Divisions
 //        main.addRouteBuilder(new RestToDivisionRoute());

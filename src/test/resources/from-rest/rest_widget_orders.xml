@@ -12,12 +12,12 @@
     </order>
     <order>
         <customerId>999</customerId>
-        <product>gadget</product>
+        <product>widget</product>
         <amount>99</amount>
     </order>
     <order>
         <customerId>111</customerId>
-        <product>gadget</product>
+        <product>widget</product>
         <amount>1111</amount>
     </order>
 </orders>

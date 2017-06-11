@@ -23,37 +23,33 @@ public class FtpToDivisionRoute extends RouteBuilder {
 		
 		Predicate isWidget = xpath("/order/product = 'widget'");
 		Predicate isGadget = xpath("/order/product = 'gadget'");
-        Endpoint widget = endpoint("file:src/test/resources/divisions?fileName=ftp_widget_out.xml&fileExist=Append");
-        Endpoint gadget = endpoint("file:src/test/resources/divisions?fileName=ftp_gadget_out.xml&fileExist=Append");
+        
+		Endpoint fileStartPoint = endpoint("file:src/test/resources/from-ftp?noop=true&fileName=jaxb_orders.csv");
+		Endpoint widgetFileEndpoint = endpoint("file:src/test/resources/divisions?fileName=ftp_widget_out.xml&fileExist=Append");
+        Endpoint gadgetFileEndpoint = endpoint("file:src/test/resources/divisions?fileName=ftp_gadget_out.xml&fileExist=Append");
         Endpoint other = endpoint("file:src/test/resources/divisions?fileName=ftp_other_out.xml&fileExist=Append");
         
         Endpoint widgetDivisionQueue = endpoint("activemq:queue:widgetDivision");
+        Endpoint gadgetDivisionQueue = endpoint("activemq:queue:gadgetDivision");
 		
-		from("file:src/test/resources/from-ftp?noop=true&fileName=jaxb_orders.csv")
-		
+//		from("file:src/test/resources/from-ftp?noop=true&fileName=jaxb_orders.csv")
+        
+		from(fileStartPoint)		
 		  .unmarshal(bindy)
 		  .split(body())
 		  .marshal(jaxbDataFormat)		  
           .choice()
 	          .when(isWidget)
-	              .to("mock:widget") // add a log so we can see this happening in the shell
-//	              .to("log:before_xslt")
 	              .to("xslt:orders.xsl")
-	              .to(widget)
+//	              .to(widgetFileEndpoint)
 	              .to(widgetDivisionQueue)
-//	              .to("log:xsl_temp")
 		      .when(isGadget)
-	              .to("mock:gadget") // add a log so we can see this happening in the shell
 	              .to("xslt:orders.xsl")
-	              .to(gadget)
+//	              .to(gadgetFileEndpoint)
+	              .to(gadgetDivisionQueue)
 	          .otherwise()
 	              .to("log:other") // add a log so we can see this happening in the shell
 	              .to(other);
-	              
-		  // To Widget Queue OR Gadget REST endpoint
-//		  .to("file:src/data/TESTOUT?fileName=orders_jaxb.xml&fileExist=Append"); 
 		
-
 	}
-
 }
