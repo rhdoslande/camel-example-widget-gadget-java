@@ -30,8 +30,6 @@ public class MyValidationBean {
 	  }
 	
 	public boolean isOrderUnderLimit(
-			String body, 
-			Exchange exchange, 
 			@XPath("/order/amount") String amount) {
 		System.out.print("amount is:" + amount);
 		
@@ -43,7 +41,7 @@ public class MyValidationBean {
 		}		
 		
 		boolean result = (myAmount < 50000);
-		System.out.println(" , result is:" + result);
+		System.out.println(" , isOrderUnderLimit result is:" + result);
 		return result;
 		
 	}
