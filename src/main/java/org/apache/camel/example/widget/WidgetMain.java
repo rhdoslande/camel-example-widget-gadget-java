@@ -18,10 +18,8 @@ package org.apache.camel.example.widget;
 
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.camel.main.Main;
-import org.doslande.FtpCsvRoute;
-import org.doslande.FtpToDivisionRoute;
-import org.doslande.RestToDivisionRoute;
-import org.doslande.ValidateWidgetRoute;
+import org.doslande.CustomerRoute;
+
 
 /**
  * A plain Java Main to start the widget and gadget example.
@@ -45,7 +43,11 @@ public final class WidgetMain {
         // from REST to Divisions
 //        main.addRouteBuilder(new RestToDivisionRoute());
         
-        main.addRouteBuilder(new ValidateWidgetRoute());
+//        main.addRouteBuilder(new ValidateWidgetRoute());
+        
+//        main.addRouteBuilder(new ValidateGadgetRoute());        
+        
+        main.addRouteBuilder(new CustomerRoute());
 
         // start and run Camel (block)
         main.run();

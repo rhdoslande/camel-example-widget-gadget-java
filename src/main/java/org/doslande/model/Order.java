@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.apache.camel.dataformat.bindy.annotation.CsvRecord;
 import org.apache.camel.dataformat.bindy.annotation.DataField;
 
+// TODO toggle value below to order 
 @XmlRootElement(name = "order")
 @XmlAccessorType(XmlAccessType.FIELD)
 @CsvRecord( separator = ",", skipFirstLine = true )

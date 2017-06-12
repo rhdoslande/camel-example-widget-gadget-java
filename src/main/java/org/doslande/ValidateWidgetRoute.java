@@ -47,8 +47,6 @@ public class ValidateWidgetRoute extends RouteBuilder {
 					.to("xslt:orders.xsl")
 		            .to(accountingQueue)
 					.to("log:accounting-newcustomer")
-			.endChoice();				;
-
+			.endChoice();
 	}
-
 }
