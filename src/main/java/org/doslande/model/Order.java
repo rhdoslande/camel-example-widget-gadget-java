@@ -34,4 +34,36 @@ public class Order implements Serializable {
 	@DataField(pos = 3)
 	private String amount;
 
+	public String getCustomerId() {
+		return customerId;
+	}
+
+	public void setCustomerId(String customerId) {
+		this.customerId = customerId;
+	}
+
+	public String getProduct() {
+		return product;
+	}
+
+	public void setProduct(String product) {
+		this.product = product;
+	}
+
+	public String getAmount() {
+		return amount;
+	}
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+	
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return "[Order: customerId=" + this.customerId + ", product=" + this.product + 
+				", amount=" + this.amount + "]";
+	}
+
+	
 }

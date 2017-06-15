@@ -1,5 +1,6 @@
 package org.doslande;
 
+import org.apache.camel.builder.NoErrorHandlerBuilder;
 import org.apache.camel.builder.RouteBuilder;
 
 public class ValidateGadgetRoute extends RouteBuilder {
@@ -11,11 +12,32 @@ public class ValidateGadgetRoute extends RouteBuilder {
 		// get order "amount" from xml input, if less than 50K, send to fulfillment db
 		// otherwise send to accounting queue
 		
-		getContext().setTracing(true);
+		errorHandler(new NoErrorHandlerBuilder());
+		
+		String CXF_RS_ENDPOINT_URI = "cxfrs://http://localhost:9090/gadgetdivision?resourceClasses=org.doslande.OrderServiceResource";
+		
+		from(CXF_RS_ENDPOINT_URI).process(new OrderProcessor())
+		;
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+/*		getContext().setTracing(true);
 		
 		from("cxfrs://http://localhost:9090/route?resourceClasses=org.doslande.NewOrdersResource")
 		.to("log:rest-input-log")
-		.log("Here is the message that was enriched: ${body}");
+		.log("Here is the message that was enriched: ${body}");*/
+		
+		
 //		from("rest:post:orders")
 //			.to("log:rest-xml-log");
 		

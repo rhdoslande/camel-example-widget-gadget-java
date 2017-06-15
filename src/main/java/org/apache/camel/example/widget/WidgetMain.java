@@ -19,6 +19,7 @@ package org.apache.camel.example.widget;
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.camel.main.Main;
 import org.doslande.CustomerRoute;
+import org.doslande.ValidateGadgetRoute;
 
 
 /**
@@ -48,6 +49,8 @@ public final class WidgetMain {
 //        main.addRouteBuilder(new ValidateGadgetRoute());        
         
         main.addRouteBuilder(new CustomerRoute());
+        
+        main.addRouteBuilder(new ValidateGadgetRoute());
 
         // start and run Camel (block)
         main.run();
