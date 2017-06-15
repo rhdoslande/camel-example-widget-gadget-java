@@ -1,7 +1,11 @@
 package org.doslande;
 
+import org.apache.camel.Endpoint;
 import org.apache.camel.builder.NoErrorHandlerBuilder;
 import org.apache.camel.builder.RouteBuilder;
+import org.doslande.model.MyValidationBean;
+import org.apache.camel.spi.DataFormat;
+import org.apache.camel.converter.jaxb.JaxbDataFormat;
 
 public class ValidateGadgetRoute extends RouteBuilder {
 
@@ -16,8 +20,34 @@ public class ValidateGadgetRoute extends RouteBuilder {
 		
 		String CXF_RS_ENDPOINT_URI = "cxfrs://http://localhost:9090/gadgetdivision?resourceClasses=org.doslande.OrderServiceResource";
 		
+		Endpoint fulfillmentQueue = endpoint("activemq:queue:fulfillment");
+		Endpoint accountingQueue = endpoint("activemq:queue:accounting");
+		
+		DataFormat jaxbformat = new JaxbDataFormat("org.doslande.model");
+		
 		from(CXF_RS_ENDPOINT_URI).process(new OrderProcessor())
-		;
+		.choice()
+			.when(method(MyValidationBean.class, "isKnownCustomer"))
+				.choice()
+					.when(method(MyValidationBean.class, "isOrderUnderLimit"))
+						// known customer and order is under the limit, send to fulfillment
+//						.to("xslt:orders.xsl")
+						.to("log:fulfillment1")
+						.marshal(jaxbformat)
+						.to(fulfillmentQueue)						
+//						.to("log:fulfillment2")
+					.otherwise()
+						// order is over the limit, send to accounting
+//						.to("xslt:orders.xsl")
+						.to(accountingQueue)
+						.to("log:accounting-overlimit")
+				.endChoice()
+			.otherwise()
+				// not a known customer, send to accounting
+//				.to("xslt:orders.xsl")
+	            .to(accountingQueue)
+				.to("log:accounting-newcustomer")
+		.endChoice();
 		
 		
 		

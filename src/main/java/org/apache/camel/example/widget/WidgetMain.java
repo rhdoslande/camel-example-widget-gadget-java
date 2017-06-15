@@ -48,7 +48,7 @@ public final class WidgetMain {
         
 //        main.addRouteBuilder(new ValidateGadgetRoute());        
         
-        main.addRouteBuilder(new CustomerRoute());
+//        main.addRouteBuilder(new CustomerRoute());
         
         main.addRouteBuilder(new ValidateGadgetRoute());
 
