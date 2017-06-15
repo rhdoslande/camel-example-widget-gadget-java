@@ -39,12 +39,14 @@ public class ValidateGadgetRoute extends RouteBuilder {
 					.otherwise()
 						// order is over the limit, send to accounting
 //						.to("xslt:orders.xsl")
+						.marshal(jaxbformat)
 						.to(accountingQueue)
 						.to("log:accounting-overlimit")
 				.endChoice()
 			.otherwise()
 				// not a known customer, send to accounting
 //				.to("xslt:orders.xsl")
+				.marshal(jaxbformat)
 	            .to(accountingQueue)
 				.to("log:accounting-newcustomer")
 		.endChoice();
