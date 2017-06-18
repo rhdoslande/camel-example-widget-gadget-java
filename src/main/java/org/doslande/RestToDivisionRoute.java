@@ -31,26 +31,29 @@ public class RestToDivisionRoute extends RouteBuilder {
         
 		from(incomingCxfrs)
 		.setExchangePattern(ExchangePattern.InOnly)
-		.to("log:incomingCxfrs")
+//		.to("log:incomingCxfrs")
+		
         .process(new Processor() {
             public void process(Exchange exchange) throws Exception {
                 //custom processing here
             	Message inMessage = exchange.getIn();
             	String body = inMessage.getBody(String.class);
-            	System.out.println("body is:" + body);
+            	System.out.println("body is:" + body);            	
+            	exchange.getIn().setBody(body);
+//            	exchange.getOut().setBody(body);
             }
         })
+        
         .split(xPathBuilder)
 	        .choice()
 		        .when(isWidget)
-		            .to("mock:widget")
 		            .to("xslt:orders.xsl")
 		            .to(widgetDivisionQueue)  // sends the "order" node, not a full xml document
 		            .to("log:to-widget-queue")
 			      .when(isGadget)
-		//            .to("mock:gadget")
 		            .setHeader(Exchange.HTTP_METHOD, constant("POST"))
 		            .setHeader(Exchange.CONTENT_TYPE, constant("text/xml"))
+		            // do not wrap in the orders element
 		//            .to("xslt:orders.xsl")
 		            .to("log:to-gadget-http")
 		            .to(gadgetDivisionHttp)	              
