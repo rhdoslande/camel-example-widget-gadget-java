@@ -47,9 +47,9 @@ public final class WidgetMain {
         // from REST to Divisions
         main.addRouteBuilder(new RestToDivisionRoute());
         
-        main.addRouteBuilder(new ValidateWidgetRoute());
+//        main.addRouteBuilder(new ValidateWidgetRoute());
         
-        main.addRouteBuilder(new ValidateGadgetRoute());
+//        main.addRouteBuilder(new ValidateGadgetRoute());
 
         // start and run Camel (block)
         main.run();

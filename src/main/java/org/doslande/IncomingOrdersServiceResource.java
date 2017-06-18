@@ -7,7 +7,7 @@ import javax.ws.rs.core.Response;
 //import org.doslande.model.Order;
 import org.doslande.model.Orders;
 
-@Path("/orderservice/")
+@Path("/myservice/")
 public class IncomingOrdersServiceResource {
 	
 	public IncomingOrdersServiceResource() {
@@ -15,8 +15,8 @@ public class IncomingOrdersServiceResource {
 	}
 	
     @POST
-    @Path("/gadgets/")
-    public Response createOrders(Orders orders) {
+    @Path("/items/")
+    public Response createOrders(String input) {
         return null;
     }
 

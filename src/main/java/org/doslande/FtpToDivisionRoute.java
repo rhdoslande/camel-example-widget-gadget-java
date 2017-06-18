@@ -23,7 +23,7 @@ public class FtpToDivisionRoute extends RouteBuilder {
 		
 		Predicate isWidget = xpath("/order/product = 'widget'");
 		Predicate isGadget = xpath("/order/product = 'gadget'");
-        
+		
 		Endpoint fileStartPoint = endpoint("file:src/test/resources/from-ftp?noop=true&fileName=jaxb_orders.csv");
 //		Endpoint widgetFileEndpoint = endpoint("file:src/test/resources/divisions?fileName=ftp_widget_out.xml&fileExist=Append");
 //		Endpoint gadgetFileEndpoint = endpoint("file:src/test/resources/divisions?fileName=ftp_gadget_out.xml&fileExist=Append");
