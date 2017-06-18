@@ -12,11 +12,9 @@
 	</xsl:template>
 
 	<xsl:template match="/">
-		<orders>
 			<xsl:copy>
 				<xsl:apply-templates select="node() | @*" />
 			</xsl:copy>
-		</orders>
 	</xsl:template>
 
 </xsl:stylesheet>

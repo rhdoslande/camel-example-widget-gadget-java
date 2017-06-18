@@ -25,12 +25,15 @@ public class FtpToDivisionRoute extends RouteBuilder {
 		Predicate isGadget = xpath("/order/product = 'gadget'");
         
 		Endpoint fileStartPoint = endpoint("file:src/test/resources/from-ftp?noop=true&fileName=jaxb_orders.csv");
-		Endpoint widgetFileEndpoint = endpoint("file:src/test/resources/divisions?fileName=ftp_widget_out.xml&fileExist=Append");
-        Endpoint gadgetFileEndpoint = endpoint("file:src/test/resources/divisions?fileName=ftp_gadget_out.xml&fileExist=Append");
+//		Endpoint widgetFileEndpoint = endpoint("file:src/test/resources/divisions?fileName=ftp_widget_out.xml&fileExist=Append");
+//		Endpoint gadgetFileEndpoint = endpoint("file:src/test/resources/divisions?fileName=ftp_gadget_out.xml&fileExist=Append");
         Endpoint other = endpoint("file:src/test/resources/divisions?fileName=ftp_other_out.xml&fileExist=Append");
         
         Endpoint widgetDivisionQueue = endpoint("activemq:queue:widgetDivision");
-        Endpoint gadgetDivisionQueue = endpoint("activemq:queue:gadgetDivision");
+        Endpoint gadgetDivisionHttp = endpoint("http://localhost:9090/gadgetdivision/orderservice/order/");
+        
+        // gadget receives on http, not a queue
+//        Endpoint gadgetDivisionQueue = endpoint("activemq:queue:gadgetDivision");
 		
 //		from("file:src/test/resources/from-ftp?noop=true&fileName=jaxb_orders.csv")
         
@@ -44,11 +47,16 @@ public class FtpToDivisionRoute extends RouteBuilder {
 //	              .to(widgetFileEndpoint)
 	              .to(widgetDivisionQueue)
 		      .when(isGadget)
-	              .to("xslt:orders.xsl")
+//	              .to("xslt:orders.xsl")
 //	              .to(gadgetFileEndpoint)
-	              .to(gadgetDivisionQueue)
+	              // must send to a rest endpoint!
+//	              .to("http://localhost:9090/gadgetdivision/orderservice/order/")
+	              .to(gadgetDivisionHttp)
+//	              .to(gadgetDivisionQueue)
+	              .to("log:to-gadgetdivision-http")
 	          .otherwise()
-	              .to("log:other") // add a log so we can see this happening in the shell
+	              .to("xslt:orders.xsl")
+	              .to("log:other") // add a log so we can see this happening in the console
 	              .to(other);
 		
 	}

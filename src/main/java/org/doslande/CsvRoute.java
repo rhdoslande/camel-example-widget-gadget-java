@@ -3,6 +3,7 @@ package org.doslande;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.model.dataformat.CsvDataFormat;
 
+@Deprecated
 public class CsvRoute extends RouteBuilder {
 	
 	public void configure() throws Exception {

@@ -19,7 +19,10 @@ package org.apache.camel.example.widget;
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.camel.main.Main;
 import org.doslande.CustomerRoute;
+import org.doslande.FtpToDivisionRoute;
+import org.doslande.RestToDivisionRoute;
 import org.doslande.ValidateGadgetRoute;
+import org.doslande.ValidateWidgetRoute;
 
 
 /**
@@ -42,13 +45,9 @@ public final class WidgetMain {
 //        main.addRouteBuilder(new FtpToDivisionRoute());
         
         // from REST to Divisions
-//        main.addRouteBuilder(new RestToDivisionRoute());
+        main.addRouteBuilder(new RestToDivisionRoute());
         
-//        main.addRouteBuilder(new ValidateWidgetRoute());
-        
-//        main.addRouteBuilder(new ValidateGadgetRoute());        
-        
-//        main.addRouteBuilder(new CustomerRoute());
+        main.addRouteBuilder(new ValidateWidgetRoute());
         
         main.addRouteBuilder(new ValidateGadgetRoute());
 

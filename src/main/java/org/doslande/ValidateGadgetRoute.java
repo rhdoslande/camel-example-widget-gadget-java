@@ -5,8 +5,10 @@ import javax.xml.bind.Marshaller;
 
 import org.apache.camel.Endpoint;
 import org.apache.camel.Exchange;
+import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.NoErrorHandlerBuilder;
 import org.apache.camel.builder.RouteBuilder;
+import org.apache.camel.builder.xml.XPathBuilder;
 import org.doslande.model.MyValidationBean;
 import org.doslande.model.Order;
 import org.apache.camel.spi.DataFormat;
@@ -23,39 +25,36 @@ public class ValidateGadgetRoute extends RouteBuilder {
 		
 		errorHandler(new NoErrorHandlerBuilder());
 		
+		// TODO complaint: when defining cxfrs, I can't get it to work with Order jaxb elements nested in Orders,
+		// therefore I need to workaround that by passing in order elements (not orders element) to the service.
 		String CXF_RS_ENDPOINT_URI = "cxfrs://http://localhost:9090/gadgetdivision?resourceClasses=org.doslande.OrderServiceResource";
+		
+//		XPathBuilder xPathBuilder = new XPathBuilder("//orders/order");
 		
 		Endpoint fulfillmentQueue = endpoint("activemq:queue:fulfillment");
 		Endpoint accountingQueue = endpoint("activemq:queue:accounting");
 		
 		DataFormat jaxbformat = new JaxbDataFormat("org.doslande.model");
 		
-		JaxbDataFormat jaxbformat2 = new JaxbDataFormat("org.doslande.model");
-//		JAXBContext jc = jaxbformat2.getContext();
-		JAXBContext jc2 = JAXBContext.newInstance("org.doslande.model");
-		Marshaller marshaller = jc2.createMarshaller();
-		marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-		marshaller.setProperty("com.sun.xml.bind.xmlDeclaration", Boolean.FALSE);
-		marshaller.setProperty(Marshaller.JAXB_ENCODING, "UTF-8");
-		marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
-		
+		// now expects one "order" element in the body. not "orders". 
 		from(CXF_RS_ENDPOINT_URI)
-		// maybe do xslt to remove the xml prolog
+//		.split(xPathBuilder) // not needed because "order is passed in to the service
+		.setExchangePattern(ExchangePattern.InOnly)
 		.process(new OrderProcessor())
 			.choice()
 				.when(method(MyValidationBean.class, "isKnownCustomer"))
 					.choice()
 						.when(method(MyValidationBean.class, "isOrderUnderLimit"))
 							// known customer and order is under the limit, send to fulfillment
-	//						.to("xslt:orders.xsl")
-							.to("log:fulfillment1")
-							.marshal(jaxbformat2)
+	//						.to("xslt:order.xsl")
+//							.to("log:fulfillment1")
+							.marshal(jaxbformat)
 							.to("log:fulfillment2")
 							.to(fulfillmentQueue)						
 	//						.to("log:fulfillment2")
 						.otherwise()
 							// order is over the limit, send to accounting
-	//						.to("xslt:orders.xsl")
+	//						.to("xslt:order.xsl")
 							.marshal(jaxbformat)
 							.to(accountingQueue)
 							.to("log:accounting-overlimit")

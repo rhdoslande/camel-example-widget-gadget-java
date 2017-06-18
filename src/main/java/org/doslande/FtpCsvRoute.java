@@ -13,6 +13,7 @@ import org.doslande.model.Order;
 
 import com.thoughtworks.xstream.XStream;
 
+@Deprecated
 public class FtpCsvRoute extends RouteBuilder {
 
 	@Override

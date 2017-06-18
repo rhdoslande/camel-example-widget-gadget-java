@@ -11,13 +11,13 @@
         <amount>78000</amount>
     </order>
     <order>
-        <customerId>999</customerId>
+        <customerId>123</customerId>
         <product>gadget</product>
         <amount>99</amount>
     </order>
     <order>
-        <customerId>111</customerId>
+        <customerId>234</customerId>
         <product>gadget</product>
-        <amount>1111</amount>
+        <amount>700</amount>
     </order>
 </orders>
