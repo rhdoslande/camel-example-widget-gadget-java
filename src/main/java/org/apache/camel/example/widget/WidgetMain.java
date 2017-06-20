@@ -18,7 +18,6 @@ package org.apache.camel.example.widget;
 
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.camel.main.Main;
-import org.doslande.CustomerRoute;
 import org.doslande.FtpToDivisionRoute;
 import org.doslande.RestToDivisionRoute;
 import org.doslande.ValidateGadgetRoute;
