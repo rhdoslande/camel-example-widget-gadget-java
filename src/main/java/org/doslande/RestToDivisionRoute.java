@@ -1,5 +1,7 @@
 package org.doslande;
 
+import javax.ws.rs.core.Response;
+
 import org.apache.camel.Endpoint;
 import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
@@ -14,6 +16,7 @@ public class RestToDivisionRoute extends RouteBuilder {
 	@Override
 	public void configure() throws Exception {
 		
+		
 		Predicate isWidget = xpath("/order/product = 'widget'");
 		Predicate isGadget = xpath("/order/product = 'gadget'");
 		
@@ -22,14 +25,15 @@ public class RestToDivisionRoute extends RouteBuilder {
 		Endpoint widgetDivisionQueue = endpoint("activemq:queue:widgetDivision");
 		Endpoint gadgetDivisionHttp = endpoint("http://localhost:9090/gadgetdivision/orderservice/order/");
 		
-		Endpoint fileStartPoint = endpoint("file:src/test/resources/from-rest?noop=true&fileName=rest_orders.xml");
+//		Endpoint fileStartPoint = endpoint("file:src/test/resources/from-rest?noop=true&fileName=rest_orders.xml");
 //        Endpoint widgetFileEndpoint = endpoint("file:src/test/resources/divisions?fileName=rest_widget_out.xml&fileExist=Append");
 //        Endpoint gadgetFileEndpoint = endpoint("file:src/test/resources/divisions?fileName=rest_gadget_out.xml&fileExist=Append");
-        Endpoint otherFileEndpoint = endpoint("file:src/test/resources/divisions?fileName=rest_other_out.xml&fileExist=Append");
+//        Endpoint otherFileEndpoint = endpoint("file:src/test/resources/divisions?fileName=rest_other_out.xml&fileExist=Append");
         
         XPathBuilder xPathBuilder = new XPathBuilder("//orders/order"); 
         
 		from(incomingCxfrs)
+		.streamCaching()
 		.setExchangePattern(ExchangePattern.InOnly)
 //		.to("log:incomingCxfrs")
 		
@@ -38,9 +42,13 @@ public class RestToDivisionRoute extends RouteBuilder {
                 //custom processing here
             	Message inMessage = exchange.getIn();
             	String body = inMessage.getBody(String.class);
-            	System.out.println("body is:" + body);            	
+//            	System.out.println("RestToDivisionRoute: anyonymouse Processor - body is:" + body);            	
             	exchange.getIn().setBody(body);
 //            	exchange.getOut().setBody(body);
+            	System.out.println("getHeaders:" + exchange.getIn().getHeaders());
+            	exchange.getIn().getHeaders().clear();
+            	
+            	Response.ok();
             }
         })
         
@@ -56,11 +64,12 @@ public class RestToDivisionRoute extends RouteBuilder {
 		            // do not wrap in the orders element
 		//            .to("xslt:orders.xsl")
 		            .to("log:to-gadget-http")
-		            .to(gadgetDivisionHttp)	              
+//		            .to(gadgetDivisionHttp)	              
+		            .to("http://localhost:9090/gadgetdivision/orderservice/order/")
 		        .otherwise()
 		            .to("xslt:orders.xsl")
-		            .to("log:other")
-		            .to(otherFileEndpoint);
+		            .to("log:other");
+//		            .to(otherFileEndpoint);
 		
 		
 /*		.split(xPathBuilder)

@@ -49,7 +49,7 @@ public final class WidgetMain {
         
 //        main.addRouteBuilder(new ValidateWidgetRoute());
         
-//        main.addRouteBuilder(new ValidateGadgetRoute());
+        main.addRouteBuilder(new ValidateGadgetRoute());
 
         // start and run Camel (block)
         main.run();
