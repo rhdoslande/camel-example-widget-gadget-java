@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 public class IncomingOrdersServiceResource {
 	
 	public IncomingOrdersServiceResource() {
-		
 	}
 	
     @POST
