@@ -28,10 +28,11 @@
     <version>2.20.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>camel-example-widget-gadget-java</artifactId>
+  <groupId>org.david</groupId>
+  <artifactId>camel-app</artifactId>
   <name>Camel :: Example :: Widget and Gadget :: Java</name>
   <description>The widget and gadget example from the EIP book</description>
-  <packaging>jar</packaging>
+  <packaging>bundle</packaging>
 
   <properties>
     <category>Beginner</category>
@@ -128,12 +129,56 @@
 
   <build>
     <plugins>
+    
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>3.3.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>${project.groupId}.${project.artifactId}</Bundle-SymbolicName>
+            <Bundle-Name>JoeFred</Bundle-Name>
+            <Bundle-Version>${project.version}</Bundle-Version>
+            <Import-Package>
+                javax.jws,
+                javax.wsdl,
+                javax.xml.bind,
+                javax.xml.bind.annotation,
+                javax.xml.namespace,
+                javax.xml.ws,
+                org.apache.cxf.bus,
+                org.apache.cxf.bus.spring,
+                org.apache.cxf.bus.resource,
+                org.apache.cxf.configuration.spring,
+                org.apache.cxf.resource,
+                org.apache.cxf.jaxws,
+                org.springframework.beans.factory.config,
+                *
+            </Import-Package>
+            <Export-Package>
+            	org.apache.camel.example.widget,
+            	org.doslande,
+            	org.doslande.model
+            </Export-Package>
+          </instructions>
+        </configuration>
+      </plugin>
 
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <configuration>
           <mainClass>org.apache.camel.example.widget.WidgetMain</mainClass>
+        </configuration>
+      </plugin>
+      
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
 
