@@ -19,11 +19,14 @@ public class ValidateWidgetRoute extends RouteBuilder {
 		XPathBuilder xPathBuilder = new XPathBuilder("//orders/order");
 //		XPathBuilder xPathBuilder = new XPathBuilder("//order");
 		
-		Endpoint widgetFullfillmentFileEndpoint = endpoint("file:src/test/resources/fulfillment?fileName=fulfillment_widget_out.xml&fileExist=Append");
-		Endpoint widgetAccountingFileEndpoint = endpoint("file:src/test/resources/accounting?fileName=accounting_widget_out.xml&fileExist=Append");
-		Endpoint widgetOrdersFileStartPoint = endpoint("file:src/test/resources/from-rest?noop=true&fileName=rest_widget_orders.xml");
+//		Endpoint widgetFullfillmentFileEndpoint = endpoint("file:src/test/resources/fulfillment?fileName=fulfillment_widget_out.xml&fileExist=Append");
+//		Endpoint widgetAccountingFileEndpoint = endpoint("file:src/test/resources/accounting?fileName=accounting_widget_out.xml&fileExist=Append");
+//		Endpoint widgetOrdersFileStartPoint = endpoint("file:src/test/resources/from-rest?noop=true&fileName=rest_widget_orders.xml");
 		
+		// origin
 		Endpoint widgetDivisionQueue = endpoint("activemq:queue:widgetDivision");
+		
+		// destinations
 		Endpoint fulfillmentQueue = endpoint("activemq:queue:fulfillment");
 		Endpoint accountingQueue = endpoint("activemq:queue:accounting");
 		
