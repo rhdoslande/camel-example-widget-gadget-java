@@ -13,6 +13,9 @@ public class OrderProcessor implements Processor {
         Message inMessage = exchange.getIn();        
         Order order1 = inMessage.getBody(Order.class);            
         exchange.getOut().setBody(order1);
+        exchange.getOut().setHeader("customerId", order1.getCustomerId());
+        exchange.getOut().setHeader("product", order1.getProduct());
+        exchange.getOut().setHeader("amount", order1.getAmount());
         return;
 	}
 

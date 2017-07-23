@@ -16,12 +16,16 @@
  */
 package org.apache.camel.example.widget;
 
+import javax.sql.DataSource;
+
 import org.apache.activemq.camel.component.ActiveMQComponent;
 import org.apache.camel.main.Main;
 import org.doslande.FtpToDivisionRoute;
 import org.doslande.RestToDivisionRoute;
 import org.doslande.ValidateGadgetRoute;
 import org.doslande.ValidateWidgetRoute;
+
+import com.mysql.cj.jdbc.MysqlDataSource;
 
 
 /**
@@ -37,6 +41,13 @@ public final class WidgetMain {
     }
 
     public static void main(String[] args) throws Exception {
+    	
+    	
+        DataSource dataSource = setupDataSource();
+        
+        // bind dataSource into the registry
+        main.bind("myDataSource", dataSource);
+    	
         // create the ActiveMQ component
         main.bind("activemq", createActiveMQComponent());
         
@@ -67,6 +78,17 @@ public final class WidgetMain {
         amq.setBrokerURL("tcp://localhost:61616");
 
         return amq;
+    }
+    
+    private static DataSource setupDataSource() {
+    	MysqlDataSource ds = new MysqlDataSource();
+        ds.setServerName("localhost");
+        ds.setPortNumber(3306);
+        ds.setDatabaseName("david_schema");
+        ds.setUser("david");
+        ds.setPassword("david");
+//        ds.setUrl(connectURI);
+        return ds;
     }
 
 }

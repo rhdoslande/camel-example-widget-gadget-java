@@ -125,6 +125,23 @@
 	  <artifactId>camel-http</artifactId>
 	</dependency>
 	
+	<dependency>
+	    <groupId>org.apache.camel</groupId>
+	    <artifactId>camel-jdbc</artifactId>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.apache.camel</groupId>
+	    <artifactId>camel-sql</artifactId>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+	<dependency>
+	    <groupId>mysql</groupId>
+	    <artifactId>mysql-connector-java</artifactId>
+	    <version>6.0.6</version>
+	</dependency>
+	
   </dependencies>
 
   <build>

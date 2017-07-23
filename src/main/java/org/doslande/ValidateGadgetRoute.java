@@ -1,5 +1,7 @@
 package org.doslande;
 
+import java.security.GeneralSecurityException;
+
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 
@@ -48,8 +50,16 @@ public class ValidateGadgetRoute extends RouteBuilder {
 							// known customer and order is under the limit, send to fulfillment
 	//						.to("xslt:order.xsl")
 //							.to("log:fulfillment1")
-							.marshal(jaxbformat)
-							.to("log:fulfillment2")
+							.marshal(jaxbformat)  // marshal to xml
+//							.to("log:fulfillment2")
+							
+							// to fulfillment DB
+//							.setBody(simple("insert into orders (customer_id, product_type, amount) values (&#39;${body[customerId]}&#39;,&#39;${body[product]}&#39;,&#39;${body[amount]}&#39;)"))
+//							.setBody(simple("insert into orders (customer_id, product_type, amount) values (:#customerId, :#product, :#amount)
+//							.to("jdbc:myDataSource1")
+							
+							// .setBody(simple("insert into employee values('${body[id]','${body[name]}')"))
+							
 							.to(fulfillmentQueue)						
 	//						.to("log:fulfillment2")
 						.otherwise()
