@@ -19,6 +19,7 @@ package org.apache.camel.example.widget;
 import javax.sql.DataSource;
 
 import org.apache.activemq.camel.component.ActiveMQComponent;
+import org.apache.camel.component.properties.PropertiesComponent;
 import org.apache.camel.main.Main;
 import org.doslande.FtpToDivisionRoute;
 import org.doslande.RestToDivisionRoute;
@@ -50,6 +51,10 @@ public final class WidgetMain {
     	
         // create the ActiveMQ component
         main.bind("activemq", createActiveMQComponent());
+        
+        PropertiesComponent pc = new PropertiesComponent();
+        pc.setLocation("classpath:org/doslande/myprop.properties");
+        main.bind("properties", pc);
         
         // from FTP to Widget Queue and Gadget Queue
 //        main.addRouteBuilder(new FtpToDivisionRoute());

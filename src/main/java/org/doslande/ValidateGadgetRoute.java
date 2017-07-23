@@ -38,6 +38,7 @@ public class ValidateGadgetRoute extends RouteBuilder {
 		
 		DataFormat jaxbformat = new JaxbDataFormat("org.doslande.model");
 		
+		
 		// now expects one "order" element in the body. not "orders". 
 		from(CXF_RS_ENDPOINT_URI)
 //		.split(xPathBuilder) // not needed because "order is passed in to the service
@@ -50,18 +51,24 @@ public class ValidateGadgetRoute extends RouteBuilder {
 							// known customer and order is under the limit, send to fulfillment
 	//						.to("xslt:order.xsl")
 //							.to("log:fulfillment1")
-							.marshal(jaxbformat)  // marshal to xml
+//							.marshal(jaxbformat)  // marshal to xml
 //							.to("log:fulfillment2")
 							
 							// to fulfillment DB
+							// JDBC component uses
+//							.setBody(simple("insert into orders (customer_id, product_type, amount) values (&#39;${body[customerId]}&#39;,'gadget','100')"))
 //							.setBody(simple("insert into orders (customer_id, product_type, amount) values (&#39;${body[customerId]}&#39;,&#39;${body[product]}&#39;,&#39;${body[amount]}&#39;)"))
-//							.setBody(simple("insert into orders (customer_id, product_type, amount) values (:#customerId, :#product, :#amount)
+//							
+							// SQL component uses :# syntax
+//							.setBody(simple("insert into orders (customer_id, product_type, amount) values (:#customerId, :#product, :#amount)"))
 //							.to("jdbc:myDataSource1")
+							.to("sql:{{sql.insertOrder}}")
+							
 							
 							// .setBody(simple("insert into employee values('${body[id]','${body[name]}')"))
 							
-							.to(fulfillmentQueue)						
-	//						.to("log:fulfillment2")
+//							.to(fulfillmentQueue)						
+							.to("log:fulfillment2")
 						.otherwise()
 							// order is over the limit, send to accounting
 	//						.to("xslt:order.xsl")
