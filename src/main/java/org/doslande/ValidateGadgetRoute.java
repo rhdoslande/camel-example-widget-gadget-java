@@ -33,7 +33,7 @@ public class ValidateGadgetRoute extends RouteBuilder {
 		
 //		XPathBuilder xPathBuilder = new XPathBuilder("//orders/order");
 		
-		Endpoint fulfillmentQueue = endpoint("activemq:queue:fulfillment");
+//		Endpoint fulfillmentQueue = endpoint("activemq:queue:fulfillment");
 		Endpoint accountingQueue = endpoint("activemq:queue:accounting");
 		
 		DataFormat jaxbformat = new JaxbDataFormat("org.doslande.model");
