@@ -34,12 +34,12 @@ public class ValidateGadgetRoute extends RouteBuilder {
 								.when(method(MyValidationBean.class, "isOrderUnderLimit"))
 									// known customer & order is under limit; send to fulfillment
 									.to("sql:{{sql.insertOrder}}")
-									.to("log:fulfillment2")
+									.to("log:gadget-order-to-fulfillment")
 								.otherwise()
 									// order is over the limit, send to accounting
 									.marshal(jaxbformat)
 									.to(accountingQueue)
-									.to("log:accounting-overlimit")
+									.to("log:gadget-accounting-overlimit")
 							.endChoice()
 						.otherwise()
 							// not a known customer, send to accounting

@@ -27,30 +27,30 @@ public class ValidateWidgetRoute extends RouteBuilder {
 		Endpoint widgetDivisionQueue = endpoint("activemq:queue:widgetDivision");
 		
 		// destinations
-		Endpoint fulfillmentQueue = endpoint("activemq:queue:fulfillment");
+//		Endpoint fulfillmentQueue = endpoint("activemq:queue:fulfillment");
 		Endpoint accountingQueue = endpoint("activemq:queue:accounting");
 		
 		from(widgetDivisionQueue)
-		.split(xPathBuilder)
-			.choice()
-				.when(method(MyValidationBean.class, "isKnownCustomer"))
-					.choice()
-						.when(method(MyValidationBean.class, "isOrderUnderLimit"))
-							// known customer and order is under the limit, send to fulfillment
-							.to("xslt:order.xsl")
-							.to(fulfillmentQueue)
-							.to("log:fulfillment-widget")
-						.otherwise()
-							// order is over the limit, send to accounting
-							.to("xslt:order.xsl")
-							.to(accountingQueue)
-							.to("log:accounting-overlimit-widget")
-					.endChoice()
-				.otherwise()
-					// not a known customer, send to accounting
-					.to("xslt:order.xsl")
-		            .to(accountingQueue)
-					.to("log:accounting-newcustomer-widget")
-			.endChoice();
+			.split(xPathBuilder)
+				.choice()
+					.when(method(MyValidationBean.class, "isKnownCustomer"))
+						.choice()
+							.when(method(MyValidationBean.class, "isOrderUnderLimit"))
+							// known customer & order is under limit; send to fulfillment
+								.to("xslt:order.xsl")
+								.to("sql:{{sql.insertOrder}}")
+								.to("log:widget-order-to-fulfillment")
+							.otherwise()
+								// order is over the limit, send to accounting
+								.to("xslt:order.xsl")
+								.to(accountingQueue)
+								.to("log:widget-accounting-overlimit")
+						.endChoice()
+					.otherwise()
+						// not a known customer, send to accounting
+						.to("xslt:order.xsl")
+			            .to(accountingQueue)
+						.to("log:accounting-newcustomer-widget")
+				.endChoice();
 	}
 }
