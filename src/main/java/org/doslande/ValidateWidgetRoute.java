@@ -1,6 +1,7 @@
 package org.doslande;
 
 import org.apache.camel.Endpoint;
+import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.RouteBuilder;
 import org.apache.camel.builder.xml.XPathBuilder;
 import org.doslande.model.MyValidationBean;
@@ -31,7 +32,9 @@ public class ValidateWidgetRoute extends RouteBuilder {
 		Endpoint accountingQueue = endpoint("activemq:queue:accounting");
 		
 		from(widgetDivisionQueue)
+		.setExchangePattern(ExchangePattern.InOnly)
 			.split(xPathBuilder)
+			.process(new OrderProcessor())
 				.choice()
 					.when(method(MyValidationBean.class, "isKnownCustomer"))
 						.choice()
