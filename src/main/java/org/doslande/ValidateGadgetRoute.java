@@ -1,39 +1,24 @@
 package org.doslande;
 
-import java.security.GeneralSecurityException;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-
 import org.apache.camel.Endpoint;
-import org.apache.camel.Exchange;
 import org.apache.camel.ExchangePattern;
 import org.apache.camel.builder.NoErrorHandlerBuilder;
 import org.apache.camel.builder.RouteBuilder;
-import org.apache.camel.builder.xml.XPathBuilder;
-import org.doslande.model.MyValidationBean;
-import org.doslande.model.Order;
-import org.apache.camel.spi.DataFormat;
 import org.apache.camel.converter.jaxb.JaxbDataFormat;
+import org.apache.camel.spi.DataFormat;
+import org.doslande.model.MyValidationBean;
 
 public class ValidateGadgetRoute extends RouteBuilder {
 
 	@Override
 	public void configure() throws Exception {
-		// start from "gadgetDivision" web service
-		// get the customer, if not known in the system, send to accounting queue
-		// get order "amount" from xml input, if less than 50K, send to fulfillment db
-		// otherwise send to accounting queue
 		
 		errorHandler(new NoErrorHandlerBuilder());
 		
 		// TODO complaint: when defining cxfrs, I can't get it to work with Order jaxb elements nested in Orders,
 		// therefore I need to workaround that by passing in order elements (not orders element) to the service.
 		String CXF_RS_ENDPOINT_URI = "cxfrs://http://localhost:9090/gadgetdivision?resourceClasses=org.doslande.OrderServiceResource";
-		
-//		XPathBuilder xPathBuilder = new XPathBuilder("//orders/order");
-		
-//		Endpoint fulfillmentQueue = endpoint("activemq:queue:fulfillment");
+
 		Endpoint accountingQueue = endpoint("activemq:queue:accounting");
 		
 		DataFormat jaxbformat = new JaxbDataFormat("org.doslande.model");
@@ -41,44 +26,23 @@ public class ValidateGadgetRoute extends RouteBuilder {
 		
 		// now expects one "order" element in the body. not "orders". 
 		from(CXF_RS_ENDPOINT_URI)
-//		.split(xPathBuilder) // not needed because "order is passed in to the service
 		.setExchangePattern(ExchangePattern.InOnly)
 		.process(new OrderProcessor())
 			.choice()
 				.when(method(MyValidationBean.class, "isKnownCustomer"))
 					.choice()
 						.when(method(MyValidationBean.class, "isOrderUnderLimit"))
-							// known customer and order is under the limit, send to fulfillment
-	//						.to("xslt:order.xsl")
-//							.to("log:fulfillment1")
-//							.marshal(jaxbformat)  // marshal to xml
-//							.to("log:fulfillment2")
-							
-							// to fulfillment DB
-							// JDBC component uses
-//							.setBody(simple("insert into orders (customer_id, product_type, amount) values (&#39;${body[customerId]}&#39;,'gadget','100')"))
-//							.setBody(simple("insert into orders (customer_id, product_type, amount) values (&#39;${body[customerId]}&#39;,&#39;${body[product]}&#39;,&#39;${body[amount]}&#39;)"))
-//							
-							// SQL component uses :# syntax
-//							.setBody(simple("insert into orders (customer_id, product_type, amount) values (:#customerId, :#product, :#amount)"))
-//							.to("jdbc:myDataSource1")
+							// known customer & order is under limit; send to fulfillment
 							.to("sql:{{sql.insertOrder}}")
-							
-							
-							// .setBody(simple("insert into employee values('${body[id]','${body[name]}')"))
-							
-//							.to(fulfillmentQueue)						
 							.to("log:fulfillment2")
 						.otherwise()
 							// order is over the limit, send to accounting
-	//						.to("xslt:order.xsl")
 							.marshal(jaxbformat)
 							.to(accountingQueue)
 							.to("log:accounting-overlimit")
 					.endChoice()
 				.otherwise()
 					// not a known customer, send to accounting
-	//				.to("xslt:orders.xsl")
 					.marshal(jaxbformat)
 		            .to(accountingQueue)
 					.to("log:accounting-newcustomer")
